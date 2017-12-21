@@ -22,7 +22,7 @@ pipeline
             {
                 ws("${WSDir}\\Checkout/")
                 {
-                    checkout([$class: 'GitSCM', branches: [[name: '*/$BranchName']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'b6f74b6b-1f9f-4da8-b596-ab968bee00a7', url: '$TargetRepos']]])
+                    checkout([$class: 'GitSCM', branches: [[name: '*/${BranchName}']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'b6f74b6b-1f9f-4da8-b596-ab968bee00a7', url: '${TargetRepos}']]])
                 }
             }        
         }
