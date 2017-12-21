@@ -1,5 +1,13 @@
 pipeline
 {
+	def ReposBaseURL = "https://github.com/kenjioshio"
+	def PackageName = "Calculation"
+	def TargetRepos = "${ReposBaseURL}/${PackageName}.git"
+	def BranchName = "master"
+	def WSDir = "${env.CI_BASE}\\${BranchName}\\${PackageName}\\${env.BUILD_TIMESTAMP}"
+	def MSBUILD_EXE ="${env.MSBUILD40}"
+	def BUILD_OPTIONS = "/p:Platform=x86 /p:DebugSymbols=true /p:DebugType=pdbonly"
+
     agent none
     stages
     {
@@ -11,7 +19,7 @@ pipeline
             }
             steps
             {
-                ws("${env.WSDir}\\Checkout/")
+                ws("${WSDir}\\Checkout/")
                 {
                     checkout([$class: 'GitSCM', branches: [[name: '*/$BranchName']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'b6f74b6b-1f9f-4da8-b596-ab968bee00a7', url: '$TargetRepos']]])
                 }
@@ -25,7 +33,7 @@ pipeline
             }
             steps
             {
-                ws("${env.WSDir}\\Checkout/")
+                ws("${WSDir}\\Checkout/")
                 {
                     script
                     {
@@ -49,7 +57,7 @@ pipeline
                     }
                     steps
                     {
-                        ws("${env.WSDir}\\cloc/")
+                        ws("${WSDir}\\cloc/")
                         {
                             bat '%ChocoToolBase%\\cloc.exe ..\\Checkout --csv --out=.\\cloc_result.csv'
                             archiveArtifacts 'cloc_result.csv'
@@ -64,7 +72,7 @@ pipeline
                     }
                     steps
                     {
-                        ws("${env.WSDir}\\Protex/")
+                        ws("${WSDir}\\Protex/")
                         {
                             powershell 'write-host "Here we are!!"'
                         }        
@@ -80,7 +88,7 @@ pipeline
             }
             steps
             {
-                ws("${env.WSDir}\\UT/")
+                ws("${WSDir}\\UT/")
                 {
                     script
                     {
