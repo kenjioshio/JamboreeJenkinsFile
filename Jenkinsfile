@@ -1,5 +1,3 @@
-pipeline
-{
 	def ReposBaseURL = "https://github.com/kenjioshio"
 	def PackageName = "Calculation"
 	def TargetRepos = "${ReposBaseURL}/${PackageName}.git"
@@ -7,6 +5,9 @@ pipeline
 	def WSDir = "${env.CI_BASE}\\${BranchName}\\${PackageName}\\${env.BUILD_TIMESTAMP}"
 	def MSBUILD_EXE ="${env.MSBUILD40}"
 	def BUILD_OPTIONS = "/p:Platform=x86 /p:DebugSymbols=true /p:DebugType=pdbonly"
+	
+pipeline
+{
 
     agent none
     stages
